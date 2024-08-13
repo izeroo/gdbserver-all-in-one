@@ -3,6 +3,7 @@ name: gdbserver builder
 on:
   schedule:
     - cron: '24 14 * * *'
+  workflow_dispatch:
   push:
     branches: [ main ]
     # Publish semver tags as releases.
@@ -24,6 +25,10 @@ jobs:
       - name: Setup gdb & buildroot env
         run: |
           sudo chmod +x ./setup_env.sh && sudo ./setup_env.sh
+      
+      - name: x86_64 building
+        run: |
+          sudo chmod +x ./builder.sh && sudo ./builder.sh $GDB_VERSION x86_64
       
       - name: arm cross building
         run: |
